@@ -1,4 +1,5 @@
 #include <string>
+#include <sstream>
 #include <iostream>
 #include "Util.h"
 
@@ -131,6 +132,7 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 	}
 	else if (flag == 2) {
 		string list = "";
+		stringstream out;
 		int countLength = 0;
 		while (sp[destinationIndex]->getKey() != 0) {
 			int nextIndex = -1;
@@ -139,13 +141,19 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 					nextIndex = i;
 				}
 			}
-			list += to_string(sp[destinationIndex]->getVertex()) + " ";
-			destinationIndex = nextIndex;
-			countLength+=2;
+			out << sp[destinationIndex]->getVertex(); // store vertex into string stream
+			list += out.str() + " "; // append string version of vertex int to list string
+			out.str(""); // clear string stream
+			
+			destinationIndex = nextIndex; // to next index
+			countLength+=2; // increment string length counter
 		}
-		list += to_string(sp[destinationIndex]->getVertex());
-		countLength++;
+		out.str(""); // clear string stream
+		out << sp[destinationIndex]->getVertex(); // add last vertex
+		list += out.str() + " ";
+		countLength++; // increment string length counter
 
+		// reverse the list string
 		string reverseList = "";
 		for (int i = countLength-1; i >= 0; i--) {
 			reverseList += list.at(i);
