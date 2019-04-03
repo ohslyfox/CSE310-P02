@@ -86,6 +86,7 @@ void Graph::loadGraph() {
 		this->adjList[i] = new LinkedList();
 		this->heapArray[i]->setVertex(i + 1);
 	}
+
 	int u, v, w, iterate = 0, mCount = 0;
 	while (inFile >> line && mCount < m) {
 		if (iterate == 0) {
@@ -108,17 +109,6 @@ void Graph::loadGraph() {
 	if (mCount < m) {
 		throw "Error: the number of edges is less than specified at line 0 in \"Ginput.txt\"";
 	}
-	/*for (int i = 0; i < m; i++) { // iterate over the amount of edges
-		//gather data from line (assumed input 'int:u int:v int:w')
-		inFile >> line;
-		int u = atoi(line.c_str());
-		inFile >> line;
-		int v = atoi(line.c_str());
-		inFile >> line;
-		int w = atoi(line.c_str());
-
-		this->adjList[u-1]->add(v, w);
-	}*/
 
 	this->size = n;
 }
