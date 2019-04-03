@@ -5,12 +5,15 @@
 
 class Graph {
 private:
-	Element** heapArray;
+	// private variables
+	Element** vertexArray;
 	LinkedList** adjList;
 	int size;
 
-	void relax(Element* u, int v, int w);
+	// private methods
+	void relax(int u, int v, int w);
 public:
+	// public methods
 	Graph();
 	~Graph();
 	Element** dijkstra(int source, int destination);

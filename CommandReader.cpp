@@ -15,7 +15,7 @@ CommandReader::~CommandReader() {
 /** 
  * breaks inputString into tokens and executes
  * valid commands (documented below), using the util
- * module, on the currentHeap stored in the CommandReader.
+ * module, on the currentGraph stored in the CommandReader.
  * @param inputString, the string to read
  * @return int, 0 or 1 where 0 is accepted input
  * and 1 is stop code
@@ -60,24 +60,25 @@ int CommandReader::executeStringCommand(string inputString) {
 	// first token represents command to be executed
 	const char cmd = tokens[0].at(0); 
 
-	/* s command stops the program
+	/* e command stops the program
 	 * expected input for token[0] .. token[3]:
-	 * s ~ ~ ~
+	 * e ~ ~ ~
 	 */
 	if (cmd == 'e' || cmd == 'E') {
 		return 1; // stop code
 	}
-	/* c command initializes a new heap to replace 
-	 * the current heap. 
+	/* i command initializes a new graph to replace 
+	 * the current graph.
 	 * expected input for token[0] .. token[3]:
-	 * c int:capacity ~ ~
+	 * i ~ ~ ~
 	 */
 	if (cmd == 'i' || cmd == 'I') {
 		try {
-			Graph* temp = Util::initializeGraph();
 			if (currentGraph != NULL) {
 				delete this->currentGraph;
+				this->currentGraph = NULL;
 			}
+			Graph* temp = Util::initializeGraph();
 			Util::loadGraph(temp);
 			this->currentGraph = temp;
 		}
@@ -88,20 +89,22 @@ int CommandReader::executeStringCommand(string inputString) {
 			cout << "Error: " << e.what() << endl;
 		}
 	}
-	// if the command is not 'c' or 's' check if heap has been initalized before 
+	// if the command is not 'e' or 'i' check if graph has been initalized before 
 	// allowing other commands... if it is not initialized print an initilization error
 	else if (this->currentGraph != NULL) {
-		/* w command prints the current heap to the console
+		/* w command prints the current graph to the console
 		 * expected input for token[0] .. token[3]:
 		 * w ~ ~ ~
 		 */
 		if (cmd == 'w' || cmd == 'W') {
 			Util::printGraph(this->currentGraph);
 		}
-		/* r command attempts to read the file 'HEAPinput.txt'
-		 * and build the corresponding min heap.
-		 * expected input for token[0] .. token[3]:
-		 * r ~ ~ ~
+		/* c command runs Dijkstras shortest path
+		 * algorithm on the current graph. If flag == 0
+		 * the length of the path from source to
+		 * destination will be printed. if flag == 1 
+		 * the vertices of the path will be printed.
+		 * c int:source int:destination int:flag
 		 */
 		else if (cmd == 'c' || cmd == 'C') {
 			try {
@@ -125,7 +128,7 @@ int CommandReader::executeStringCommand(string inputString) {
 		}
 	}
 	else {
-		// heap is not initalized
+		// graph is not initalized
 		cout << "Error: graph must be initalized with \"i\"." << endl;
 		return 0;
 	}

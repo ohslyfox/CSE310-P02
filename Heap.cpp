@@ -28,10 +28,7 @@ Element* Heap::extractMin() {
 	if (size <= 0) {
 		throw "Error: heap is already empty.";
 	}
-	// fix violated heap property
-	for (int i = size / 2; i >= 0; i--) {
-		minHeapify(i);
-	}
+
 	// get min, set first element to last,
 	// decrease size, minHeapify the root to
 	// maintain heap property, then return min
@@ -52,14 +49,14 @@ void Heap::minHeapify(int index) {
 	int r = right(index);
 	int smallest;
 
-	if (l < size && H[l]->getKey() < H[index]->getKey()) {
+	if (l < size && H[l]->getDistance() < H[index]->getDistance()) {
 		smallest = l;
 	}
 	else {
 		smallest = index;
 	}
 
-	if (r < size && H[r]->getKey() < H[smallest]->getKey()) {
+	if (r < size && H[r]->getDistance() < H[smallest]->getDistance()) {
 		smallest = r;
 	}
 
@@ -116,7 +113,7 @@ void Heap::insertKey(int key) {
 	// increase size, set new key to infinity,
 	// then decrease it to value of key arg
 	this->size++;
-	this->H[size - 1]->setKey(INT32_MAX);
+	this->H[size - 1]->setDistance(INT32_MAX);
 	this->decreaseKey(size - 1, key);
 }
 
@@ -130,12 +127,12 @@ void Heap::decreaseKey(int index, int newValue) {
 	if (index > capacity - 1) {
 		throw "Error: specified index is out of bounds.";
 	}
-	if (newValue > this->H[index]->getKey()) {
+	if (newValue > this->H[index]->getDistance()) {
 		throw "Error: the new key is larger than the key located at index.";
 	}
-	this->H[index]->setKey(newValue);
+	this->H[index]->setDistance(newValue);
 	// fix violated heap property
-	while (index > 0 && H[parent(index)]->getKey() > H[index]->getKey()) {
+	while (index > 0 && H[parent(index)]->getDistance() > H[index]->getDistance()) {
 		exchange(index, parent(index));
 		index = parent(index);
 	}
@@ -165,26 +162,6 @@ void Heap::expandArray(int target) {
 	}
 	delete[] this->H;
 	this->H = newTemp;
-	/*Element** temp = new (Element*)realloc(this->H, capacity * sizeof(Element));
-	if (temp != NULL) {
-		this->H = temp;
-	}
-	else {
-		// error, cannot realloc array
-		// attempt to create new memory
-		// and copy old array into new
-		Element* newArrayAlloc = (Element*)malloc(capacity * sizeof(Element));
-		if (newArrayAlloc != NULL) {
-			for (int k = 0; k < this->capacity; k++) {
-				newArrayAlloc[k].setKey(H[k].getKey());
-			}
-			this->H = newArrayAlloc;
-		}
-		else {
-			// no memory left to copy array
-			throw "Error: could not expand the array.";
-		}
-	}*/
 }
 
 /**
@@ -231,7 +208,7 @@ int Heap::right(int index) {
  * @return int, the min key of the heap
  */
 int Heap::getMin() {
-	return this->H[0]->getKey();
+	return this->H[0]->getDistance();
 }
 
 /**
@@ -252,6 +229,6 @@ void Heap::printHeap() {
 	cout << "Size is " << this->size << ".\n";
 	// fetch key of each element and print it followed by a new line
 	for (int i = 0; i < this->size; i++) {
-		cout << this->H[i]->getKey() << endl;
+		cout << this->H[i]->getDistance() << endl;
 	}
 }

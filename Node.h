@@ -3,10 +3,12 @@
 
 class Node {
 private:
+	// private variables
 	Node* next;
 	int vertex;
 	int weight;
 public:
+	//public methods
 	Node();
 	Node* getNext();
 	int getVertex();

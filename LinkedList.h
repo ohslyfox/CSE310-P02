@@ -6,9 +6,11 @@ using namespace std;
 
 class LinkedList {
 private:
+	// private variables
 	Node* head;
 	int length;
 public:
+	// public methods
 	LinkedList();
 	~LinkedList();
 	Node* getHead();

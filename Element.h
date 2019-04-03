@@ -3,20 +3,16 @@
 
 class Element {
 private:
-	int key;
+	int distance;
 	int vertex;
 	int pi;
-	int referenceIndex;
 public:
 	Element();
-	~Element();
-	int getKey();
+	int getDistance();
 	int getVertex();
 	int getPi();
-	int getReferenceIndex();
-	void setKey(int inputKey);
+	void setDistance(int distance);
 	void setVertex(int vertex);
 	void setPi(int pi);
-	void setReferenceIndex(int referenceIndex);
 };
 #endif

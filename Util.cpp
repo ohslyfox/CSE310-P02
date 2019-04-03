@@ -26,29 +26,6 @@ void Util::buildHeap(Heap* inputHeap, Element** inputArray, int n) {
 }
 
 /**
- * Inserts key given by k into the heap given
- * by inputHeap. The flag input can be 1 or 2, when
- * it is 2 the heap will be printed before and after insertion,
- * when the flag is 1 no additional actions will be perfomed
- * @param inputHeap, the heap to insert to
- * @param flag, the flag argument
- * @param k, the key value to insert
- */
-void Util::insert(Heap* inputHeap, int flag, int k) {
-	if (flag == 1) {
-		inputHeap->insertKey(k);
-	}
-	else if (flag == 2){
-		printHeap(inputHeap);
-		inputHeap->insertKey(k);
-		printHeap(inputHeap);
-	}
-	else {
-		throw "Error: invalid flag argument.";
-	}
-}
-
-/**
  * Extracts the min element from the heap given by inputHeap
  * The flag input can be 1 or 2, when
  * it is 2 the heap will be printed before and after deletion,
@@ -58,102 +35,74 @@ void Util::insert(Heap* inputHeap, int flag, int k) {
  * @return Element, the element  that was removed
  */
 Element* Util::deleteMin(Heap* inputHeap, int flag) {
-	if (flag != 1 && flag != 2) { //leave this here so flag error takes precedence
+	if (flag != 1) { //leave this here so flag error takes precedence
 		throw "Error: invalid flag argument.";
 	}
 	if (inputHeap->getSize() == 0) {
 		throw "Error: heap is already empty.";
+	}
+	// fix violated heap property
+	for (int i = inputHeap->getSize() / 2; i >= 0; i--) {
+		inputHeap->minHeapify(i);
 	}
 
 	Element* min = NULL;
 	if (flag == 1) {
 		min = inputHeap->extractMin();
 	}
-	else if (flag == 2) {
-		printHeap(inputHeap);
-		min = inputHeap->extractMin();
-		printHeap(inputHeap);
-	}
 	return min;
 }
 
 /**
- * Decreases the key located at given input index to given
- * input value from the heap given by inputHeap.
- * The flag input can be 1 or 2, when
- * it is 2 the heap will be printed before and after decreasing,
- * when the flag is 1 no additional actions will be perfomed
- * @param inputHeap, the heap to modify
- * @param flag, the flag argument
- * @param index, the index to decrease
- * @param value, the value to decrease the index to
+ * Returns a pointer to a new graph
+ * @return Graph*, the pointer to the new graph
  */
-void Util::decreaseKey(Heap* inputHeap, int flag, int index, int value) {
-	if (index < 0 || index >= inputHeap->getSize()) {
-		throw "Error: specified index is out of bounds.";
-	}
-	if (flag == 1) {
-		inputHeap->decreaseKey(index, value);
-	}
-	else if (flag == 2) {
-		printHeap(inputHeap);
-		inputHeap->decreaseKey(index, value);
-		printHeap(inputHeap);
-	}
-	else {
-		throw "Error: invalid flag argument.";
-	}
-}
-
-/**
- * Prints the heap given by inputHeap.
- * @param inputHeap, the heap to print
- */
-void Util::printHeap(Heap* inputHeap) {
-	inputHeap->printHeap();
-}
-
 Graph* Util::initializeGraph() {
 	return (new Graph());
 }
 
+/**
+ * Attempts to load 'Ginput.txt' into the graph
+ * @param inputGraph, the graph to load into
+ */
 void Util::loadGraph(Graph* inputGraph) {
 	inputGraph->loadGraph();
 }
 
+/**
+ * Runs dijkstras shortest path alogorithm on the
+ * input graph from source to destination. If the
+ * flag == 0 the length of the path will be printed.
+ * if flag == 1 the vertices of the path will be printed.
+ * @param inputGraph, the graph to run dsp on
+ * @param source, the source vertex
+ * @param destination, the destination vertex
+ * @param flag, the flag value
+ */
 void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
-	Element** sp = inputGraph->dijkstra(source, destination);
-	int destinationIndex = -1;
-	for (int i = 0; i < inputGraph->getSize(); i++) {
-		if (sp[i]->getVertex() == destination) {
-			destinationIndex = i;
-		}
-	}
+	Element** sp = inputGraph->dijkstra(source, destination); // get shortest path
+	int destinationIndex = destination - 1; // index of destination
+
 	if (flag == 0) {
-		if (sp[destinationIndex]->getKey() >= INT16_MAX) {
+		if (sp[destinationIndex]->getDistance() >= INT32_MAX/2) {
 			throw "Error: no path from source to destination.";
 		}
-		cout << "LENGTH: " << sp[destinationIndex]->getKey() << endl;
+		cout << "LENGTH: " << sp[destinationIndex]->getDistance() << endl;
 	}
 	else if (flag == 1) {
-		string list = "";
-		stringstream out;
-		int countLength = 0;
+		string list = ""; // list for path
+		stringstream out; // stringstream for converting int to string
+		int countLength = 0; // count length of string
+
 		while (sp[destinationIndex]->getPi() != 0) {
-			int nextIndex = -1;
-			for (int i = 0; i < inputGraph->getSize(); i++) {
-				if (sp[i]->getVertex() == sp[destinationIndex]->getPi()) {
-					nextIndex = i;
-				}
-			}
 			out << sp[destinationIndex]->getVertex(); // store vertex into string stream
 			list += out.str() + " "; // append string version of vertex int to list string
 			out.str(""); // clear string stream
 			
-			destinationIndex = nextIndex; // to next index
+			destinationIndex = sp[destinationIndex]->getPi()-1; // to next index
 			countLength+=2; // increment string length counter
 		}
-		out.str(""); // clear string stream
+
 		out << sp[destinationIndex]->getVertex(); // add last vertex
 		list += out.str() + " ";
 		countLength++; // increment string length counter
@@ -167,9 +116,6 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		for (int i = countLength-1; i >= 0; i--) {
 			reverseList += list.at(i);
 		}
-
-		
-
 		cout << "PATH: " << reverseList << endl;
 	}
 	else {
@@ -177,6 +123,10 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 	}
 }
 
+/**
+ * Prints the inputGraph.
+ * @param inputGraph, the graph to print
+ */
 void Util::printGraph(Graph* inputGraph) {
 	inputGraph->print();
 }

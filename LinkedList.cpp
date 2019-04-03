@@ -17,6 +17,11 @@ LinkedList::~LinkedList() {
 	this->head = NULL;
 }
 
+/**
+ * Adds a directed edge to the linked list.
+ * @param vertex, the vertex id to store
+ * @param weight, the weight along th edge
+ */
 void LinkedList::add(int vertex, int weight) {
 	Node* node = new Node();
 	node->setVertex(vertex);
@@ -26,14 +31,25 @@ void LinkedList::add(int vertex, int weight) {
 	this->length++;
 }
 
+/**
+ * Returns the head of the list.
+ * @return head, the head of the list
+ */
 Node* LinkedList::getHead() {
 	return this->head;
 }
 
+/**
+ * Returns the length of the list.
+ * @return length, the length of the list
+ */
 int LinkedList::getLength() {
 	return this->length;
 }
 
+/**
+ * Prints the list.
+ */
 void LinkedList::print() {
 	Node* copy = this->head;
 	while (copy != NULL) {
