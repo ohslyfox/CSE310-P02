@@ -78,9 +78,8 @@ int CommandReader::executeStringCommand(string inputString) {
 			if (currentGraph != NULL) {
 				delete this->currentGraph;
 			}
+			Util::loadGraph(temp);
 			this->currentGraph = temp;
-			
-			Util::loadGraph(this->currentGraph);
 		}
 		catch (const char* msg) {
 			cout << msg << endl;
@@ -106,6 +105,9 @@ int CommandReader::executeStringCommand(string inputString) {
 		 */
 		else if (cmd == 'c' || cmd == 'C') {
 			try {
+				if (tokens[1] == "~" || tokens[2] == "~" || tokens[3] == "~") {
+					throw "Error: invalid input.";
+				}
 				Util::dijkstra(this->currentGraph, atoi(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str()));
 			}
 			catch (const char* msg) {

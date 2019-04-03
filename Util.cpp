@@ -127,13 +127,13 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 			destinationIndex = i;
 		}
 	}
-	if (flag == 1) {
+	if (flag == 0) {
 		if (sp[destinationIndex]->getKey() >= INT16_MAX) {
 			throw "Error: no path from source to destination.";
 		}
 		cout << "LENGTH: " << sp[destinationIndex]->getKey() << endl;
 	}
-	else if (flag == 2) {
+	else if (flag == 1) {
 		string list = "";
 		stringstream out;
 		int countLength = 0;
@@ -156,7 +156,7 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		list += out.str() + " ";
 		countLength++; // increment string length counter
 
-		if (countLength == 1) {
+		if (countLength == 1 && source != destination) {
 			throw "Error: no path from source to destination.";
 		}
 
@@ -168,7 +168,10 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 
 		
 
-		cout << reverseList << endl;
+		cout << "PATH: " << reverseList << endl;
+	}
+	else {
+		throw "Error: invalid flag argument.";
 	}
 }
 

@@ -155,9 +155,15 @@ void Heap::expandArray(int target) {
 	}
 	// attempt to reallocate array with new capacity
 	Element** newTemp = new Element*[this->capacity];
-	for (int i = 0; i < this->size; i++) {
-		newTemp[i] = H[i];
+	for (int i = 0; i < this->capacity; i++) {
+		if (i < this->size) {
+			newTemp[i] = H[i];
+		}
+		else {
+			newTemp[i] = new Element();
+		}
 	}
+	delete[] this->H;
 	this->H = newTemp;
 	/*Element** temp = new (Element*)realloc(this->H, capacity * sizeof(Element));
 	if (temp != NULL) {

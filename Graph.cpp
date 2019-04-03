@@ -15,10 +15,14 @@ Graph::Graph() {
 
 Graph::~Graph() {
 	if (this->adjList != NULL) delete[] this->adjList;
-	if (this->heapArray != NULL) delete this->heapArray;
+	if (this->heapArray != NULL) delete[] this->heapArray;
 }
 
 Element** Graph::dijkstra(int source, int destination) {
+	if (source > this->size || destination > this->size) {
+		throw "Error: one or more nodes are invalid.";
+	}
+
 	int sourceIndex = 0;
 	for (int i = 0; i < this->size; i++) {
 		if (this->heapArray[i]->getVertex() == source) {
@@ -31,7 +35,6 @@ Element** Graph::dijkstra(int source, int destination) {
 
 	Heap* queue = Util::initializeHeap(this->size);
 	Util::buildHeap(queue, this->heapArray, this->size);
-	
 	int count = 0;
 	while (queue->getSize() > 0) {
 		Element* u = Util::deleteMin(queue, 1);
@@ -42,7 +45,7 @@ Element** Graph::dijkstra(int source, int destination) {
 			head = head->getNext();
 		}
 	}
-	//print();
+
 	return this->heapArray;
 }
 
@@ -59,17 +62,9 @@ void Graph::loadGraph() {
 	// attempt to open file
 	ifstream inFile;
 	string name = fileName;
-	try {
-		inFile.open(name.c_str());
-		if (!inFile) {
-			throw "Error: file \"Ginput.txt\" was not found.";
-		}
-	}
-	catch (const char* msg) {
-		cout << msg;
-	}
-	catch (exception e) {
-		cout << e.what();
+	inFile.open(name.c_str());
+	if (!inFile) {
+		throw "Error: file \"Ginput.txt\" was not found.";
 	}
 
 	// read file into array
@@ -91,7 +86,29 @@ void Graph::loadGraph() {
 		this->adjList[i] = new LinkedList();
 		this->heapArray[i]->setVertex(i + 1);
 	}
-	for (int i = 0; i < m; i++) { // iterate over the amount of edges
+	int u, v, w, iterate = 0, mCount = 0;
+	while (inFile >> line && mCount < m) {
+		if (iterate == 0) {
+			u = atoi(line.c_str());
+		}
+		else if (iterate == 1) {
+			v = atoi(line.c_str());
+		}
+		else if (iterate == 2) {
+			w = atoi(line.c_str());
+		}
+		iterate++;
+
+		if (iterate == 3) {
+			this->adjList[u - 1]->add(v, w);
+			mCount++;
+			iterate = 0;
+		}
+	}
+	if (mCount < m) {
+		throw "Error: the number of edges is less than specified at line 0 in \"Ginput.txt\"";
+	}
+	/*for (int i = 0; i < m; i++) { // iterate over the amount of edges
 		//gather data from line (assumed input 'int:u int:v int:w')
 		inFile >> line;
 		int u = atoi(line.c_str());
@@ -101,7 +118,7 @@ void Graph::loadGraph() {
 		int w = atoi(line.c_str());
 
 		this->adjList[u-1]->add(v, w);
-	}
+	}*/
 
 	this->size = n;
 }
@@ -112,7 +129,7 @@ int Graph::getSize() {
 
 void Graph::print() {
 	for (int i = 0; i < this->size; i++) {
-		cout << heapArray[i]->getVertex() << ": ";
+		cout << heapArray[i]->getVertex() << " : ";
 		adjList[i]->print();
 		cout << endl;
 	}

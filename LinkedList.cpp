@@ -39,6 +39,6 @@ void LinkedList::print() {
 	while (copy != NULL) {
 		cout << "(" << copy->getVertex() << ", " << copy->getWeight() << ")";
 		copy = copy->getNext();
-		if (copy != NULL) cout << ";";
+		if (copy != NULL) cout << "; ";
 	}
 }
