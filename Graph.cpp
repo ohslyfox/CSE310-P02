@@ -24,8 +24,8 @@ Element** Graph::dijkstra(int source, int destination) {
 		if (this->heapArray[i]->getVertex() == source) {
 			sourceIndex = i;
 		}
-		this->heapArray[i]->setKey(INT32_MAX);
-		this->heapArray[i]->setPi(NULL);
+		this->heapArray[i]->setKey(INT16_MAX);
+		this->heapArray[i]->setPi(0);
 	}
 	this->heapArray[sourceIndex]->setKey(0);
 
@@ -35,10 +35,10 @@ Element** Graph::dijkstra(int source, int destination) {
 	int count = 0;
 	while (queue->getSize() > 0) {
 		Element* u = Util::deleteMin(queue, 1);
-		LinkedList* uAdj = adjList[u->getReferenceIndex()];
+		LinkedList* uAdj = adjList[u->getVertex()-1];
 		Node* head = uAdj->getHead();
 		while (head != NULL) {
-			this->relax(u, head->getReferenceIndex(), head->getWeight());
+			this->relax(u, head->getVertex()-1, head->getWeight());
 			head = head->getNext();
 		}
 	}
@@ -74,7 +74,6 @@ void Graph::loadGraph() {
 
 	// read file into array
 	string line;
-
 	inFile >> line;
 	int n = atoi(line.c_str());
 	inFile >> line;
@@ -86,14 +85,12 @@ void Graph::loadGraph() {
 
 	this->heapArray = new Element*[n];
 	this->adjList = new LinkedList*[n];
-	int count = 0;
-	int* seen = new int[n];
-	struct uvw {
-		int u;
-		int v;
-		int w;
-	};
-	uvw* toAdd = new uvw[m];
+
+	for (int i = 0; i < n; i++) {
+		this->heapArray[i] = new Element();
+		this->adjList[i] = new LinkedList();
+		this->heapArray[i]->setVertex(i + 1);
+	}
 	for (int i = 0; i < m; i++) { // iterate over the amount of edges
 		//gather data from line (assumed input 'int:u int:v int:w')
 		inFile >> line;
@@ -103,44 +100,7 @@ void Graph::loadGraph() {
 		inFile >> line;
 		int w = atoi(line.c_str());
 
-		toAdd[i].u = u;
-		toAdd[i].v = v;
-		toAdd[i].w = w;
-		// first build all unique vertex u's
-		bool wasFound = false;
-		for (int i = 0; i < n; i++) {
-			if (u == seen[i]) {
-				wasFound = true;
-			}
-		}
-		if (!wasFound) {
-			seen[count] = u;
-			this->heapArray[count] = new Element();
-			this->heapArray[count]->setVertex(u);
-			this->heapArray[count]->setReferenceIndex(count);
-			this->adjList[count] = new LinkedList();
-			count++;
-		}
-		else {
-
-		}
-	}
-	inFile.close();
-
-	for (int i = 0; i < m; i++) {
-		uvw current = toAdd[i];
-		int foundU = -1, foundV = -1;
-		for (int j = 0; j < n; j++) {
-			if (current.u == heapArray[j]->getVertex()) {
-				foundU = j;
-			}
-			if (current.v == heapArray[j]->getVertex()) {
-				foundV = j;
-			}
-		}
-		if (foundU != -1 && foundV != -1) {
-			adjList[foundU]->add(foundV, current.v, current.w);
-		}
+		this->adjList[u-1]->add(v, w);
 	}
 
 	this->size = n;

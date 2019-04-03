@@ -13,7 +13,7 @@ public:
 	~LinkedList();
 	Node* getHead();
 	int getLength();
-	void add(int referenceIndex, int vertex, int weight);
+	void add(int vertex, int weight);
 	void print();
 };
 #endif

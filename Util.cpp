@@ -128,13 +128,16 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		}
 	}
 	if (flag == 1) {
+		if (sp[destinationIndex]->getKey() >= INT16_MAX) {
+			throw "Error: no path from source to destination.";
+		}
 		cout << "LENGTH: " << sp[destinationIndex]->getKey() << endl;
 	}
 	else if (flag == 2) {
 		string list = "";
 		stringstream out;
 		int countLength = 0;
-		while (sp[destinationIndex]->getKey() != 0) {
+		while (sp[destinationIndex]->getPi() != 0) {
 			int nextIndex = -1;
 			for (int i = 0; i < inputGraph->getSize(); i++) {
 				if (sp[i]->getVertex() == sp[destinationIndex]->getPi()) {
@@ -153,11 +156,17 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		list += out.str() + " ";
 		countLength++; // increment string length counter
 
+		if (countLength == 1) {
+			throw "Error: no path from source to destination.";
+		}
+
 		// reverse the list string
 		string reverseList = "";
 		for (int i = countLength-1; i >= 0; i--) {
 			reverseList += list.at(i);
 		}
+
+		
 
 		cout << reverseList << endl;
 	}

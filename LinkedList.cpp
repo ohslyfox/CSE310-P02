@@ -17,9 +17,8 @@ LinkedList::~LinkedList() {
 	this->head = NULL;
 }
 
-void LinkedList::add(int reference, int vertex, int weight) {
+void LinkedList::add(int vertex, int weight) {
 	Node* node = new Node();
-	node->setReferenceIndex(reference);
 	node->setVertex(vertex);
 	node->setWeight(weight);
 	node->setNext(this->head);
