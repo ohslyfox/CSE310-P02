@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdint.h>
+#include <limits.h>
 #include "Heap.h"
 #include "Util.h"
 #include "Graph.h"

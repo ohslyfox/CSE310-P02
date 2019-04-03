@@ -1,6 +1,8 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <stdint.h>
+#include <limits.h>
 #include "Util.h"
 
 /**
