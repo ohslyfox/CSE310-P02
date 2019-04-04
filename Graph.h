@@ -8,7 +8,8 @@ private:
 	// private variables
 	Element** vertexArray;
 	LinkedList** adjList;
-	int size;
+	int verticies;
+	int edges;
 
 	// private methods
 	void relax(int u, int v, int w);
@@ -19,7 +20,6 @@ public:
 	Element** dijkstra(int source, int destination);
 	void loadGraph();
 	void print();
-	int getSize();
 };
 
 #endif

@@ -13,6 +13,8 @@
 Graph::Graph() {
 	this->adjList = NULL;
 	this->vertexArray = NULL;
+	this->verticies = 0;
+	this->edges = 0;
 }
 
 Graph::~Graph() {
@@ -29,20 +31,20 @@ Graph::~Graph() {
  * @return vertexArray, the array of verticies
  */
 Element** Graph::dijkstra(int source, int destination) {
-	if (source > this->size || destination > this->size || source < 1 || destination < 1) {
+	if (source > this->verticies || destination > this->verticies || source < 1 || destination < 1) {
 		throw "Error: one or more nodes are invalid.";
 	}
 
 	// Initialize single source
-	for (int i = 0; i < this->size; i++) {
+	for (int i = 0; i < this->verticies; i++) {
 		this->vertexArray[i]->setDistance(INT32_MAX/2);
 		this->vertexArray[i]->setPi(0);
 	}
 	this->vertexArray[source-1]->setDistance(0);
 
 	// Find Shortest Path
-	Heap* queue = Util::initializeHeap(this->size);
-	Util::buildHeap(queue, this->vertexArray, this->size);
+	Heap* queue = Util::initializeHeap(this->verticies);
+	Util::buildHeap(queue, this->vertexArray, this->verticies);
 	int count = 0;
 	while (queue->getSize() > 0) {
 		Element* u = Util::deleteMin(queue, 1); // fixes violated heap property from rexlax automatically
@@ -134,22 +136,16 @@ void Graph::loadGraph() {
 		throw "Error: the number of edges is less than specified at line 0 in \"Ginput.txt\"";
 	}
 
-	this->size = n;
-}
-
-/**
- * Returns the size (number of vertices) in the graph
- * @return size, the size of the graph
- */
-int Graph::getSize() {
-	return this->size;
+	this->verticies = n;
+	this->edges = m;
 }
 
 /**
  * Prints the vertices and their adjacency lists
  */
 void Graph::print() {
-	for (int i = 0; i < this->size; i++) {
+	cout << this->verticies << " " << this->edges << endl;
+	for (int i = 0; i < this->verticies; i++) {
 		cout << vertexArray[i]->getVertex() << " : ";
 		adjList[i]->print();
 		cout << endl;
