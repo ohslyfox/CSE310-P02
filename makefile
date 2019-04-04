@@ -1,7 +1,7 @@
 # Make file for C++
 CC = g++
 CFLAG = -g -Wall
-EXE = run
+EXE = proj2
 
 # Unzip and Compile, & allow for run to be executed
 all : $(EXE)
