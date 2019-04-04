@@ -29,7 +29,7 @@ Graph::~Graph() {
  * @return vertexArray, the array of verticies
  */
 Element** Graph::dijkstra(int source, int destination) {
-	if (source > this->size || destination > this->size) {
+	if (source > this->size || destination > this->size || source < 1 || destination < 1) {
 		throw "Error: one or more nodes are invalid.";
 	}
 
@@ -45,7 +45,7 @@ Element** Graph::dijkstra(int source, int destination) {
 	Util::buildHeap(queue, this->vertexArray, this->size);
 	int count = 0;
 	while (queue->getSize() > 0) {
-		Element* u = Util::deleteMin(queue, 1); // fixes violated heap property automatically
+		Element* u = Util::deleteMin(queue, 1); // fixes violated heap property from rexlax automatically
 		LinkedList* uAdj = adjList[u->getVertex()-1]; // adjacency list for vertex u
 		
 		// relax each vertex in adjacency list
@@ -55,7 +55,7 @@ Element** Graph::dijkstra(int source, int destination) {
 			head = head->getNext();
 		}
 	}
-
+	delete queue;
 	return this->vertexArray;
 }
 
@@ -111,15 +111,15 @@ void Graph::loadGraph() {
 	while (inFile >> line && mCount < m) {
 		if (iterate == 0) {
 			u = atoi(line.c_str());
-			if (u > n) throw "Error: A node in the adjacency list does not exist.";
+			if (u > n || u < 1) throw "Error: A node in the adjacency list does not exist.";
 		}
 		else if (iterate == 1) {
 			v = atoi(line.c_str());
-			if (v > n) throw "Error: A node in the adjacency list does not exist.";
+			if (v > n || v < 1) throw "Error: A node in the adjacency list does not exist.";
 		}
 		else if (iterate == 2) {
 			w = atoi(line.c_str());
-			if (w < 0) throw "Error: A node in the adjacency list has a negative edge weight.";
+			if (w < 0 || w > INT16_MAX) throw "Error: A node in the adjacency list has a negative edge weight or is too large.";
 		}
 		iterate++;
 
