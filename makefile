@@ -3,7 +3,7 @@ CC = g++
 CFLAG = -g -Wall
 EXE = proj2
 
-# Unzip and Compile, & allow for run to be executed
+# Unzip and Compile, & allow for EXE to be executed
 all : $(EXE)
 	chmod +x $(EXE)
 
