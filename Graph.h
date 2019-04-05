@@ -18,6 +18,7 @@ public:
 	Graph();
 	~Graph();
 	Element** dijkstra(int source, int destination);
+	int getVerticies();
 	void loadGraph();
 	void print();
 };

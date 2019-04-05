@@ -140,6 +140,14 @@ void Graph::loadGraph() {
 }
 
 /**
+ * Returns the number of verticies in the graph
+ * @return verticies, the number of verticies in the graph
+ */
+int Graph::getVerticies() {
+	return this->verticies;
+}
+
+/**
  * Prints the vertices and their adjacency lists
  */
 void Graph::print() {

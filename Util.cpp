@@ -88,29 +88,27 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		cout << "LENGTH: " << sp[destinationIndex]->getDistance() << endl;
 	}
 	else if (flag == 1) {
-		string list = ""; // list for path
-		stringstream out; // stringstream for converting int to string
-		int countLength = 0; // count length of string
-
+		int n = inputGraph->getVerticies();
+		int index = n - 1;
+		int* path = new int[n]; // path can be at most n length
 		while (sp[destinationIndex]->getPi() != 0) { // while the pi field is a valid vertex
-			out << sp[destinationIndex]->getVertex(); // store vertex into string stream
-			list += out.str() + " "; // append string version of vertex int to list string
-			out.str(""); // clear string stream
-			
-			destinationIndex = sp[destinationIndex]->getPi()-1; // to next index
-			countLength+=2; // increment string length counter
+			path[index] = sp[destinationIndex]->getVertex(); // store vertex
+			destinationIndex = sp[destinationIndex]->getPi() - 1; // to pi vertex
+			index--; // next index for path
+		}
+		path[index] = sp[destinationIndex]->getVertex(); // store last vertex
+
+		string concat = ""; // string containing final path
+		stringstream out; // stringstream for converting int to string
+		for (int i = index; i < n; i++) {
+			out << path[i];
+			concat += out.str();
+			if (i < n-1) concat += ", ";
+			out.str("");
 		}
 
-		out << sp[destinationIndex]->getVertex(); // add last vertex
-		list += out.str() + " ";
-		countLength++; // increment string length counter
-
-		// reverse the list string
-		string reverseList = "";
-		for (int i = countLength-1; i >= 0; i--) {
-			reverseList += list.at(i);
-		}
-		cout << "PATH: " << reverseList << endl;
+		delete path;
+		cout << "PATH: " << concat << endl;
 	}
 	else {
 		throw "Error: invalid flag argument.";
