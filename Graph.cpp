@@ -8,8 +8,6 @@
 #include "Util.h"
 #include "Graph.h"
 
-#define fileName "Ginput.txt"
-
 Graph::Graph() {
 	this->adjList = NULL;
 	this->vertexArray = NULL;
@@ -80,10 +78,9 @@ void Graph::relax(int u, int v, int w) {
 void Graph::loadGraph() {
 	// attempt to open file
 	ifstream inFile;
-	string name = fileName;
-	inFile.open(name.c_str());
+	inFile.open("Ginput.txt");
 	if (!inFile) {
-		throw "Error: file \"Ginput.txt\" was not found.";
+		throw ("Error: file \"Ginput.txt\" was not found.");
 	}
 
 	string line; // for reading lines
@@ -102,6 +99,7 @@ void Graph::loadGraph() {
 	this->vertexArray = new Element*[n];
 	this->adjList = new LinkedList*[n];
 
+	// create objects
 	for (int i = 0; i < n; i++) {
 		this->vertexArray[i] = new Element();
 		this->adjList[i] = new LinkedList();
@@ -121,7 +119,8 @@ void Graph::loadGraph() {
 		}
 		else if (iterate == 2) {
 			w = atoi(line.c_str());
-			if (w < 0 || w > INT16_MAX) throw "Error: A node in the adjacency list has a negative edge weight or is too large.";
+			if (w < 0 || w > INT16_MAX)
+				throw "Error: A node in the adjacency list has a negative edge weight or the weight is too large.";
 		}
 		iterate++;
 

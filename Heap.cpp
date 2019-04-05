@@ -8,10 +8,9 @@ Heap::Heap(int capacity) {
 	if (capacity < 1) {
 		throw "Error: capacity must be greater than zero.";
 	}
+
 	this->size = 0;
 	this->capacity = capacity;
-	// using 'malloc' instead of 'new' per professor request to use 
-	// 'realloc' when expanding the array
 	this->H = new Element*[capacity];
 }
 
@@ -151,17 +150,17 @@ void Heap::expandArray(int target) {
 		this->capacity = this->capacity * 2;
 	}
 	// attempt to reallocate array with new capacity
-	Element** newTemp = new Element*[this->capacity];
+	Element** temp = new Element*[this->capacity];
 	for (int i = 0; i < this->capacity; i++) {
 		if (i < this->size) {
-			newTemp[i] = H[i];
+			temp[i] = H[i];
 		}
 		else {
-			newTemp[i] = new Element();
+			temp[i] = new Element();
 		}
 	}
 	delete[] this->H;
-	this->H = newTemp;
+	this->H = temp;
 }
 
 /**

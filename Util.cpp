@@ -46,11 +46,7 @@ Element* Util::deleteMin(Heap* inputHeap, int flag) {
 		inputHeap->minHeapify(i);
 	}
 
-	Element* min = NULL;
-	if (flag == 1) {
-		min = inputHeap->extractMin();
-	}
-	return min;
+	return inputHeap->extractMin();
 }
 
 /**
@@ -83,10 +79,12 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 	Element** sp = inputGraph->dijkstra(source, destination); // get shortest path
 	int destinationIndex = destination - 1; // index of destination
 
+	// check if path was found
+	if (sp[destinationIndex]->getDistance() >= INT32_MAX / 2) {
+		throw "Error: no path from source to destination.";
+	}
+	// print distance or path
 	if (flag == 0) {
-		if (sp[destinationIndex]->getDistance() >= INT32_MAX/2) {
-			throw "Error: no path from source to destination.";
-		}
 		cout << "LENGTH: " << sp[destinationIndex]->getDistance() << endl;
 	}
 	else if (flag == 1) {
@@ -94,7 +92,7 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		stringstream out; // stringstream for converting int to string
 		int countLength = 0; // count length of string
 
-		while (sp[destinationIndex]->getPi() != 0) {
+		while (sp[destinationIndex]->getPi() != 0) { // while the pi field is a valid vertex
 			out << sp[destinationIndex]->getVertex(); // store vertex into string stream
 			list += out.str() + " "; // append string version of vertex int to list string
 			out.str(""); // clear string stream
@@ -106,10 +104,6 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		out << sp[destinationIndex]->getVertex(); // add last vertex
 		list += out.str() + " ";
 		countLength++; // increment string length counter
-
-		if (countLength == 1 && source != destination) {
-			throw "Error: no path from source to destination.";
-		}
 
 		// reverse the list string
 		string reverseList = "";
