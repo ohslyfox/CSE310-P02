@@ -101,10 +101,10 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 		string concat = ""; // string containing final path
 		stringstream out; // stringstream for converting int to string
 		for (int i = index; i < n; i++) {
-			out << path[i];
-			concat += out.str();
-			if (i < n-1) concat += ", ";
-			out.str("");
+			out << path[i]; // store int
+			concat += out.str(); // append int to string
+			if (i < n-1) concat += ", "; // add a comma if not last vertex
+			out.str(""); // clear string stream
 		}
 
 		delete path;
