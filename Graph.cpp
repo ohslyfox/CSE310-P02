@@ -80,7 +80,7 @@ void Graph::loadGraph() {
 	ifstream inFile;
 	inFile.open("Ginput.txt");
 	if (!inFile) {
-		throw ("Error: file \"Ginput.txt\" was not found.");
+		throw "Error: file \"Ginput.txt\" was not found.";
 	}
 
 	string line; // for reading lines
