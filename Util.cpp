@@ -111,7 +111,7 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 			out.str(""); // clear string stream
 		}
 
-		delete path;
+		delete[] path;
 		cout << "PATH: " << concat << endl;
 	}
 }
