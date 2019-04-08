@@ -21,3 +21,7 @@ A text file named "Ginput.txt" should be placed in the same directory as the exe
 n and m on the first line seperated by a space. n denotes the number of vertices in the graph while m denotes the number of edges
 in the adjacency list. Each line after line 1 will create the adjacency list and should contain three integers u, v, and w seperated
 by a space. u denotes the parent of the edge while v denotes the neighbor or child of the edge. w denotes the weight along the u-v edge.
+
+#Example
+For the provided Ginput.txt a source to destination path from 1 to 2 can be visualized in the following figure:
+![alt text](https://github.com/ohslyfox/CSE310-P02/blob/master/Ginput.png "Ginput.txt")
