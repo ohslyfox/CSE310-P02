@@ -27,7 +27,9 @@ For the provided Ginput.txt a source to destination path from 1 to 2 can be visu
 ![alt text](https://github.com/ohslyfox/CSE310-P02/blob/master/Ginput.png "Ginput.txt")
 
 This example can be verified through the command c 1 2 0 which will return:
-`LENGTH: 19`
+
+  `LENGTH: 19`
 
 Alternatively c 1 2 1 will return:
-`PATH: 1, 3, 6, 8, 5, 2`
+
+  `PATH: 1, 3, 6, 8, 5, 2`
