@@ -1,7 +1,7 @@
 /**
  * @author Patrick Finger
  * @date 04/19/2019
- * @brief Implements a Dijkstra's shortest path
+ * @brief Implements Dijkstra's shortest path
  * algorithm along with a graph to support it.
  * CSE310 T-TH 4:30-5:45PM, P01, Professor Xue
  */

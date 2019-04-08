@@ -45,7 +45,7 @@ Element** Graph::dijkstra(int source, int destination) {
 	Util::buildHeap(queue, this->vertexArray, this->verticies);
 	int count = 0;
 	while (queue->getSize() > 0) {
-		Element* u = Util::deleteMin(queue, 1); // fixes violated heap property from rexlax automatically
+		Element* u = Util::deleteMin(queue, 1); // fixes violated heap property from relax automatically
 		LinkedList* uAdj = adjList[u->getVertex()-1]; // adjacency list for vertex u
 		
 		// relax each vertex in adjacency list

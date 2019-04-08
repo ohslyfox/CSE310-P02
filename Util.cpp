@@ -76,6 +76,10 @@ void Util::loadGraph(Graph* inputGraph) {
  * @param flag, the flag value
  */
 void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
+	if (flag < 0 || flag > 1) {
+		throw "Error: invalid flag argument.";
+	}
+
 	Element** sp = inputGraph->dijkstra(source, destination); // get shortest path
 	int destinationIndex = destination - 1; // index of destination
 
@@ -87,7 +91,7 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 	if (flag == 0) {
 		cout << "LENGTH: " << sp[destinationIndex]->getDistance() << endl;
 	}
-	else if (flag == 1) {
+	else {
 		int n = inputGraph->getVerticies();
 		int index = n - 1;
 		int* path = new int[n]; // path can be at most n length
@@ -109,9 +113,6 @@ void Util::dijkstra(Graph* inputGraph, int source, int destination, int flag) {
 
 		delete path;
 		cout << "PATH: " << concat << endl;
-	}
-	else {
-		throw "Error: invalid flag argument.";
 	}
 }
 
