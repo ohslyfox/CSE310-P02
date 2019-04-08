@@ -26,10 +26,10 @@ by a space. u denotes the parent of the edge while v denotes the neighbor or chi
 For the provided Ginput.txt a source to destination path from 1 to 2 can be visualized in the following figure:
 ![alt text](https://github.com/ohslyfox/CSE310-P02/blob/master/Ginput.png "Ginput.txt")
 
-This example can be verified through the command c 1 2 0 which will return:
+This example can be verified through the command **c 1 2 0** which will return:
 
   `LENGTH: 19`
 
-Alternatively c 1 2 1 will return:
+Alternatively, the command **c 1 2 1** will return:
 
   `PATH: 1, 3, 6, 8, 5, 2`
