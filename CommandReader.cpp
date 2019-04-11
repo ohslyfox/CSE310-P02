@@ -74,10 +74,12 @@ int CommandReader::executeStringCommand(string inputString) {
 	 */
 	if (cmd == 'i' || cmd == 'I') {
 		try {
+			// recreate graph if it exists
 			if (currentGraph != NULL) {
 				delete this->currentGraph;
 				this->currentGraph = NULL;
 			}
+			// load new graph
 			Graph* temp = Util::initializeGraph();
 			Util::loadGraph(temp);
 			this->currentGraph = temp;

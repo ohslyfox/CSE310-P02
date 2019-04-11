@@ -16,8 +16,12 @@ Graph::Graph() {
 }
 
 Graph::~Graph() {
-	if (this->adjList != NULL) delete[] this->adjList;
-	if (this->vertexArray != NULL) delete[] this->vertexArray;
+	for (int i = 0; i < verticies; i++) {
+		if (this->adjList[i] != NULL) delete this->adjList[i];
+		if (this->vertexArray[i] != NULL) delete this->vertexArray[i];
+	}
+	if (this->adjList != NULL) delete this->adjList;
+	if (this->vertexArray != NULL) delete this->vertexArray;
 }
 
 /**
@@ -76,6 +80,11 @@ void Graph::relax(int u, int v, int w) {
  * Attempts to load graph "Ginput.txt".
  */
 void Graph::loadGraph() {
+	// check if graph has already been loaded
+	if (vertexArray != NULL || adjList != NULL) {
+		throw "Error: graph must be recreated to load.";
+	}
+
 	// attempt to open file
 	ifstream inFile;
 	inFile.open("Ginput.txt");
