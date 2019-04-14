@@ -12,6 +12,9 @@ Heap::Heap(int capacity) {
 	this->size = 0;
 	this->capacity = capacity;
 	this->H = new Element*[capacity];
+	for (int i = 0; i < capacity; i++) {
+		this->H[i] = new Element();
+	}
 }
 
 Heap::~Heap() {
@@ -76,12 +79,14 @@ void Heap::buildMinHeap(Element** inputArray, int inputSize) {
 		throw "Error: the heap capacity must be increased to build from array.";
 		// could expand array, however a given example test case throws an error
 	}
-
+	// trash old heap
+	for (int i = 0; i < this->capacity; i++) {
+		delete this->H[i];
+	}
 	// load new values from inputArray
 	int index = 0;
 	while (index < inputSize) {
 		this->H[index] = inputArray[index];
-		//this->H[index].setKey(inputArray[index].getKey());
 		index++;
 	}
 	this->size = index;
