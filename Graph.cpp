@@ -99,6 +99,8 @@ void Graph::loadGraph() {
 	int n = atoi(line.c_str());
 	inFile >> line;
 	int m = atoi(line.c_str());
+	this->verticies = n;
+	this->edges = m;
 
 	if (n <= 0 || m < 0) {
 		throw "Error: the number of vertices must be greater than 0 and the number of edges must be non-negative.";
@@ -143,9 +145,6 @@ void Graph::loadGraph() {
 	if (mCount < m) {
 		throw "Error: the number of edges is less than specified at line 0 in \"Ginput.txt\"";
 	}
-
-	this->verticies = n;
-	this->edges = m;
 }
 
 /**

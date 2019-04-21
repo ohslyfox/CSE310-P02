@@ -81,8 +81,8 @@ int CommandReader::executeStringCommand(string inputString) {
 			}
 			// load new graph
 			Graph* temp = Util::initializeGraph();
-			Util::loadGraph(temp);
 			this->currentGraph = temp;
+			Util::loadGraph(temp);
 		}
 		catch (const char* msg) {
 			cout << msg << endl;
