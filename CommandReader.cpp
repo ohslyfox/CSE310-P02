@@ -85,9 +85,13 @@ int CommandReader::executeStringCommand(string inputString) {
 			Util::loadGraph(temp);
 		}
 		catch (const char* msg) {
+			delete this->currentGraph;
+			this->currentGraph = NULL;
 			cout << msg << endl;
 		}
 		catch (exception e) {
+			delete this->currentGraph;
+			this->currentGraph = NULL;
 			cout << "Error: " << e.what() << endl;
 		}
 	}
